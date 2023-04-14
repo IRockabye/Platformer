@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public bool inWater = false;
     bool isClimbing = false;
     int coins = 0;
+    bool canHit = true;
 
     // Start is called before the first frame update
     void Start()
@@ -81,16 +82,18 @@ public class Player : MonoBehaviour
 
     public void RecountHp(int deltaHp)
     {
-        curHp = curHp + deltaHp;
-        if (deltaHp < 0)
+        if (deltaHp < 0 && canHit)
         {
+            curHp = curHp + deltaHp;
             StopCoroutine(OnHit());
-            isHit = true;
+            /*canHit = false;*/
+            isHit = true; 
             StartCoroutine(OnHit());
 
         }
         else if (curHp > maxHp)
         {
+            curHp = curHp + deltaHp;
             curHp = maxHp;
         }
         print(curHp);
@@ -110,7 +113,10 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(1f, GetComponent<SpriteRenderer>().color.g + 0.04f, GetComponent<SpriteRenderer>().color.b + 0.04f);
 
         if (GetComponent<SpriteRenderer>().color.g == 1f)
+        {
             StopCoroutine(OnHit());
+            canHit = true;
+        }
         if (GetComponent<SpriteRenderer>().color.g <=0)
             isHit = false;
         yield return new WaitForSeconds(0.02f);
@@ -162,6 +168,12 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
             RecountHp(-1);
         }
+
+        if (collision.gameObject.tag == "BlueGem")
+        {
+            Destroy(collision.gameObject);
+            StartCoroutine(NoHit());
+        }
     }
     
 
@@ -212,5 +224,14 @@ public class Player : MonoBehaviour
         an.SetBool("isJump", true);
         yield return new WaitForSeconds(0.5f);
         an.SetBool("isJump", false);
+    }
+
+    IEnumerator NoHit()
+    {
+        canHit = false;
+        print("Неуязвим");
+        yield return new WaitForSeconds(5f);
+        canHit = true;
+        print("Персонажа можно бить");
     }
 }

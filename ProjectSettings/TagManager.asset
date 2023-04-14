@@ -12,6 +12,7 @@ TagManager:
   - Coin
   - Heart
   - Mushroom
+  - BlueGem
   layers:
   - Default
   - TransparentFX
