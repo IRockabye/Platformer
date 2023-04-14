@@ -9,6 +9,9 @@ TagManager:
   - Ladder
   - Trampoline
   - Weight
+  - Coin
+  - Heart
+  - Mushroom
   layers:
   - Default
   - TransparentFX

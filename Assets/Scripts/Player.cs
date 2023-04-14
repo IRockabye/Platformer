@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     bool canTp = true;
     public bool inWater = false;
     bool isClimbing = false;
+    int coins = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -88,6 +89,11 @@ public class Player : MonoBehaviour
             StartCoroutine(OnHit());
 
         }
+        else if (curHp > maxHp)
+        {
+            curHp = maxHp;
+        }
+        print(curHp);
         if (curHp <= 0)
         {
             GetComponent<CapsuleCollider2D>().enabled = false;
@@ -136,6 +142,25 @@ public class Player : MonoBehaviour
             {
                 collision.gameObject.GetComponent<Door>().Unlock();
             }
+        }
+
+        if (collision.gameObject.tag == "Coin")
+        {
+            Destroy(collision.gameObject);
+            coins++;
+            print("Кол-во монет " + coins);
+        }
+
+        if (collision.gameObject.tag == "Heart")
+        {
+            Destroy(collision.gameObject);
+            RecountHp(1);
+        }
+
+        if (collision.gameObject.tag == "Mushroom")
+        {
+            Destroy(collision.gameObject);
+            RecountHp(-1);
         }
     }
     
