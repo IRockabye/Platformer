@@ -14,6 +14,8 @@ TagManager:
   - Mushroom
   - BlueGem
   - GreenGem
+  - QuickSand
+  - Icy
   layers:
   - Default
   - TransparentFX

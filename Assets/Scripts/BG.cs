@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BG : MonoBehaviour
+{
+    float lenght, startpos;
+    public GameObject cam;
+    public float parrallaxEffect;
+    // Start is called before the first frame update
+    void Start()
+    {
+        startpos = transform.position.x;
+        lenght = GetComponent<SpriteRenderer>().bounds.size.x;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        float temp = cam.transform.localPosition.x * (1 - parrallaxEffect);
+        float dist = cam.transform.position.x * parrallaxEffect;
+        
+        transform.position = new Vector3 (startpos + dist, transform.position.y, transform.position.z);
+
+        if (temp > startpos + lenght)
+        {
+            startpos += lenght;
+        }    
+        else if (temp < startpos - lenght)
+        {
+            startpos -= lenght;
+        }
+
+    }
+}

@@ -207,6 +207,15 @@ public class Player : MonoBehaviour
             }
             
         }
+
+        if ( collision.gameObject.tag == "Icy")
+        {
+            if (rb.gravityScale == 1f)
+            {
+                rb.gravityScale = 7f;
+                speed *= 0.25f;
+            }
+        } 
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -216,6 +225,15 @@ public class Player : MonoBehaviour
             isClimbing = false;
             rb.bodyType = RigidbodyType2D.Dynamic;
         }
+
+        if (collision.gameObject.tag == "Icy")
+        {
+            if (rb.gravityScale == 7f)
+            {
+                rb.gravityScale = 1f;
+                speed *= 4f;
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -224,6 +242,12 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(TrampolineAnim(collision.gameObject.GetComponentInParent<Animator>()));
         }    
+        
+        if (collision.gameObject.tag == "QuickSand")
+        {
+            speed *= 0.25f;
+            rb.mass *= 100f;
+        }
     }
      
     IEnumerator TrampolineAnim(Animator an)
@@ -290,6 +314,15 @@ public class Player : MonoBehaviour
         if (spr.color.a > 0)
         {
             StartCoroutine(Invis(spr, time)); 
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "QuickSand")
+        {
+            speed *= 4f;
+            rb.mass *= 0.01f;
         }
     }
 }
